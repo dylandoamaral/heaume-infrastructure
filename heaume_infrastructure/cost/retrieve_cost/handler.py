@@ -8,7 +8,7 @@ def handler(event, context):
     to send the payload to "write_to_influxdb" lambda.
     """
     client = boto3.client("ce")
-    now = datetime.today()
+    now = datetime.strptime(event["time"], "%Y-%m-%dT%H:%M:%SZ")
     response = client.get_cost_and_usage(
         TimePeriod={
             "Start": (now - timedelta(days=1)).strftime("%Y-%m-%d"),
@@ -19,12 +19,12 @@ def handler(event, context):
         GroupBy=[{"Type": "DIMENSION", "Key": "SERVICE"}],
     )
 
-    result = {"organization": "Heaume", "bucket": "Cost", "points": []}
+    result = {"organization": "Heaume", "bucket": "Billing", "points": []}
 
     for groups in response["ResultsByTime"][0]["Groups"]:
         result["points"].append(
             {
-                "measurement": groups["Keys"][0],
+                "measurement": "Price",
                 "timestamp": int(now.timestamp()),
                 "fields": {
                     "amount": float(groups["Metrics"]["NetAmortizedCost"]["Amount"])
@@ -32,6 +32,7 @@ def handler(event, context):
                 "tags": {
                     "provider": "AWS",
                     "unit": groups["Metrics"]["NetAmortizedCost"]["Unit"],
+                    "service": groups["Keys"][0],
                 },
             }
         )
