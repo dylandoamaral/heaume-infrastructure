@@ -24,7 +24,7 @@ def handler(event, context):
     for groups in response["ResultsByTime"][0]["Groups"]:
         result["points"].append(
             {
-                "measurement": "Price",
+                "measurement": "price",
                 "timestamp": int(now.timestamp()),
                 "fields": {
                     "amount": float(groups["Metrics"]["NetAmortizedCost"]["Amount"])
