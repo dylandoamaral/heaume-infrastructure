@@ -13,14 +13,15 @@ def handler(event, context):
         "bucket": "DailyCost",
         "points": [
             {
-                "measurement": "Cloudformation",
+                "measurement": "price",
                 "timestamp": 1609165984,
                 "fields": {
                     "amount": 17
                 },
                 "tags": {
                     "unit": "USD",
-                    "provider": "AWS"
+                    "provider": "AWS",
+                    "service": "Cloudformation"
                 }
             }
         ]
@@ -66,6 +67,6 @@ def create_point(measurement, timestamp, fields, tags):
     for k, v in fields.items():
         point = point.field(k, v)
     for k, v in tags.items():
-        point = point.field(k, v)
+        point = point.tag(k, v)
 
     return point
