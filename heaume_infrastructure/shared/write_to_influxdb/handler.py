@@ -1,5 +1,6 @@
 import os
 
+from cast import NoCast, cast_mapping
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -22,7 +23,8 @@ def handler(event, context):
                     "unit": "USD",
                     "provider": "AWS",
                     "service": "Cloudformation"
-                }
+                },
+                "cast": "float"
             }
         ]
     }
@@ -43,6 +45,7 @@ def handler(event, context):
                 timestamp=point["timestamp"],
                 fields=point["fields"],
                 tags=point["tags"],
+                cast=point.get("cast"),
             )
         )
 
@@ -51,7 +54,7 @@ def handler(event, context):
     return {"points": len(points)}
 
 
-def create_point(measurement, timestamp, fields, tags):
+def create_point(measurement, timestamp, fields, tags, cast):
     """Create a point for influxDB database.
 
     :param measurement: The name of the measurement.
@@ -62,10 +65,13 @@ def create_point(measurement, timestamp, fields, tags):
     :type fields: dict
     :param tags: The dict of tags.
     :type tags: dict
+    :param cast: The potential casting requirement.
+    :type cast: Optional[CastType]
     """
     point = Point(measurement).time(timestamp, WritePrecision.S)
+    cast = cast_mapping[cast] if cast else NoCast()
     for k, v in fields.items():
-        point = point.field(k, v)
+        point = point.field(k, cast.cast(v))
     for k, v in tags.items():
         point = point.tag(k, v)
 

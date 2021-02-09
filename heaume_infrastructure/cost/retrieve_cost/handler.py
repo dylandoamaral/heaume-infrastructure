@@ -34,6 +34,7 @@ def handler(event, context):
                     "unit": groups["Metrics"]["NetAmortizedCost"]["Unit"],
                     "service": groups["Keys"][0],
                 },
+                "cast": "float",
             }
         )
 
