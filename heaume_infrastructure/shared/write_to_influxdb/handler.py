@@ -15,7 +15,7 @@ def handler(event, context):
         "points": [
             {
                 "measurement": "price",
-                "timestamp": 1609165984,
+                "time": '2021-02-09T23:59:59Z',
                 "fields": {
                     "amount": 17
                 },
@@ -42,7 +42,7 @@ def handler(event, context):
         points.append(
             create_point(
                 measurement=point["measurement"],
-                timestamp=point["timestamp"],
+                time=point["time"],
                 fields=point["fields"],
                 tags=point["tags"],
                 cast=point.get("cast"),
@@ -54,13 +54,13 @@ def handler(event, context):
     return {"points": len(points)}
 
 
-def create_point(measurement, timestamp, fields, tags, cast):
+def create_point(measurement, time, fields, tags, cast):
     """Create a point for influxDB database.
 
     :param measurement: The name of the measurement.
     :type measurement: str
-    :param timestamp: When the point happened.
-    :type timestamp: str
+    :param time: When the point happened in %Y-%m-%dT%H:%M:%SZ.
+    :type time: str
     :param fields: The dict of fields.
     :type fields: dict
     :param tags: The dict of tags.
@@ -68,7 +68,7 @@ def create_point(measurement, timestamp, fields, tags, cast):
     :param cast: The potential casting requirement.
     :type cast: Optional[CastType]
     """
-    point = Point(measurement).time(timestamp, WritePrecision.S)
+    point = Point(measurement).time(time, WritePrecision.S)
     cast = cast_mapping[cast] if cast else NoCast()
     for k, v in fields.items():
         point = point.field(k, cast.cast(v))

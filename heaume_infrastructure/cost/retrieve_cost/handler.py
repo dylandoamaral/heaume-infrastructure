@@ -25,7 +25,7 @@ def handler(event, context):
         result["points"].append(
             {
                 "measurement": "price",
-                "timestamp": int(now.timestamp()),
+                "time": (now - timedelta(seconds=1)).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "fields": {
                     "amount": float(groups["Metrics"]["NetAmortizedCost"]["Amount"])
                 },
