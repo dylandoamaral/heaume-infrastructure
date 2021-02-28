@@ -1,0 +1,17 @@
+ 
+[masters]
+max-line-length = 88
+disable = E501, W503, C0114
+ignore =
+    .git
+    __pycache__
+    setup.py
+    build
+    dist
+    releases
+    .idea
+    .venv
+    .mypy_cache
+    .pytest_cache
+    .vscode
+    .github

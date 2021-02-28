@@ -1,4 +1,2 @@
-project = "heaume"
-Project = project.capitalize()
-
-tags = {"Project": Project}
+PROJECT = "heaume"
+TAGS = {"Project": PROJECT.capitalize()}
