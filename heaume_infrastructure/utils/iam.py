@@ -1,6 +1,8 @@
+from typing import List
+
 from pulumi import Output
 
-from typing import List
+from heaume_infrastructure.utils.service import Service
 
 
 def policy_invoke_lambdas(arns: Output) -> str:

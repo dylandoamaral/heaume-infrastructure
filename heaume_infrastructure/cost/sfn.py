@@ -1,10 +1,10 @@
 from pulumi import Output
-from pulumi_aws import config, iam, sfn
+from pulumi_aws import iam, sfn
 
-from heaume_infrastructure.utils.iam import policy_invoke_lambdas
+from heaume_infrastructure.config import TAGS
 from heaume_infrastructure.cost.fn import lambda_retrieve_cost
 from heaume_infrastructure.shared.fn import lambda_write_to_influxdb
-from heaume_infrastructure.config import TAGS
+from heaume_infrastructure.utils.iam import policy_invoke_lambdas
 
 sfn_lambda_arns = Output.all(lambda_retrieve_cost.arn, lambda_write_to_influxdb.arn)
 
@@ -16,13 +16,12 @@ role_sfn_handle_cost = iam.Role(
             {
                 "Effect": "Allow",
                 "Principal": {
-                    "Service": "states.%s.amazonaws.com"
+                    "Service": "states.amazonaws.com"
                 },
                 "Action": "sts:AssumeRole"
             }
         ]
-    }"""
-    % config.region,
+    }""",
     tags=TAGS,
 )
 

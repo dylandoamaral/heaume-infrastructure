@@ -1,5 +1,5 @@
 import pulumi
-from pulumi_aws import lambda_, iam
+from pulumi_aws import iam, lambda_
 
 from heaume_infrastructure.config import TAGS
 

@@ -1,7 +1,7 @@
-from pulumi_aws.iam import RolePolicy, Role
-
 import json
 from typing import Optional
+
+from pulumi_aws.iam import Role, RolePolicy
 
 from heaume_infrastructure.utils.service import Service, no_resource_services
 from tests.tools.pulumi import check_pulumi, check_pulumi_relationship
@@ -10,6 +10,9 @@ from tests.tools.pulumi import check_pulumi, check_pulumi_relationship
 def check_policy(policy: RolePolicy):
     """
     Check if a policy respects the common assertion for all policies.
+
+    :param policy: The policy to check.
+    :type policy: RolePolicy
     """
 
     def curry(args):
@@ -50,6 +53,8 @@ def check_assume_role_policy(role: Role, service: Service):
     """
     Check if an assume role respects the common assertion for all assume roles.
 
+    :param role: The role that need to be assumed.
+    :type role: Role
     :param service: The name of the service that assume the role.
     :type service: Service
     """
@@ -68,8 +73,8 @@ def check_assume_role_policy(role: Role, service: Service):
         assert len(statements) == 1, f"{need} only one statement."
         statement = statements[0]
         need = f"The statement of {urn} should have"
-        be = need.replace("have", "be")
-        assert statement["Action"] == "sts:AssumeRole", f"{be} 'sts:AssumeRole'."
+        need_be = need.replace("have", "be")
+        assert statement["Action"] == "sts:AssumeRole", f"{need_be} 'sts:AssumeRole'."
         principal = statement.get("Principal")
         assert principal, f"{need} a principal."
         assert isinstance(principal, dict), f"{need} a principal of type dict."
@@ -91,6 +96,8 @@ def check_policy_action(policy: RolePolicy, service: Service, category: Optional
 
        The policy should be asserted using `check_policy` first.
 
+    :param policy: The policy to check.
+    :type policy: RolePolicy
     :param service: The name of the service.
     :type service: Service
     :param category: The category of the action that need to be authorized,
@@ -110,7 +117,7 @@ def check_policy_action(policy: RolePolicy, service: Service, category: Optional
             effect = statement["Effect"]
             for action in actions:
                 if action.startswith(acronym) and effect == "Allow":
-                    return None
+                    return
         assert False, f"{need} an allowed action for the service {service.name()}."
 
     check_pulumi(policy, "policy", curry)
@@ -118,11 +125,11 @@ def check_policy_action(policy: RolePolicy, service: Service, category: Optional
 
 def check_role_has_policy(role: Role, policy: RolePolicy):
     """
-    Check if a policy is attached to a role.
+     heck if a policy is attached to a role.
 
-    :param args: a Tuple containing the role id attached to  the policy and the role id
-                 of a role.
-    :type args: Tuple[str, str]
+    :param role: The role.
+    :type role: Role
+    :param policy: The policy.
+    :type policy: RolePolicy
     """
-
     check_pulumi_relationship(policy, "role", role, "id")

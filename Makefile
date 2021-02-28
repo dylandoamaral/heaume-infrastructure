@@ -1,5 +1,5 @@
 lint:
-	@poetry run pylint heaume_infrastructure tests
+	@poetry run pylint heaume_infrastructure tests/tools tests/conftest.py
 
 isort:
 	@poetry run isort heaume_infrastructure tests

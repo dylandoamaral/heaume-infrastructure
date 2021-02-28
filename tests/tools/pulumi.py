@@ -1,9 +1,7 @@
-import pulumi
-from pulumi import CustomResource
-
 from typing import Any, Callable
 
-from heaume_infrastructure.utils.service import Service
+import pulumi
+from pulumi import CustomResource
 
 
 @pulumi.runtime.test
@@ -30,6 +28,19 @@ def check_pulumi_relationship(
     right_resource: CustomResource,
     right_attribute: Any,
 ):
+    """Check a pulumi relationship between two resources by checking the equality of
+    two of their parameters.
+
+    :param left_resource: The left resource that should be linked to th right resource.
+    :type left_resource: CustomResource
+    :param left_attribute: The left attribute that should equals the right attribute.
+    :type left_attribute: Any
+    :param right_resource: The right resource that should be linked to th left resource.
+    :type right_resource: CustomResource
+    :param right_attribute: The right attribute that should equals the left attribute.
+    :type right_attribute: Any
+    """
+
     def curry(args):
         left, right = args
         assert left == right, f"{left} not equals to {right}."
