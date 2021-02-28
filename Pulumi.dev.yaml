@@ -4,8 +4,4 @@ config:
     secure: AAABADisRt/squJIB57MCcbAAFlWJH/c6WrJeu4uFpE74NhlcP8Nu0PmJ1Msp/Mo9Dd8JB9oduK5gc8TW/gXVTzvtfyfKNapoI6m8PshtD9Y+ElRFHFDrq7ySE5PoO9yIf+Xwk5Uanyjz8fC7v15GAgsJPMZfSwa
   heaume:influxdbURL:
     secure: AAABAPKPzGWKCFvj9F6KedRrmdGMnzVCc+497zsfLuCGpjq4k2yNEUmCbsmTP+cx51rBDPpWeOTeXYc=
-  project:influxdbToken:
-    secure: AAABAFbnkmfJ/f+D9HBLC8sQ8bHIjK2EhkA0i+5rX+p5sAu9jbw/el9p0xakZQWwUiH/LVkK2ef/c6BkDj/E4zM0BWBvbA6k2oTOjUEMmd1ek+TzNkNW1fWmlbJ34VrjOvr6qFy7yQ1dduRDfLAg+koM8FzOy0+7
-  project:influxdbURL:
-    secure: AAABAFkaxo4TnRFSuUpORJvxWoREwxjlUI9uoWKOF8DuwNc/z3NnJOyKI4NiFStUXknAFluWV5eR5gA=
   pulumi:template: aws-python
