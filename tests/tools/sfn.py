@@ -2,8 +2,7 @@ import json
 
 from pulumi_aws.sfn import StateMachine
 
-from heaume_infrastructure.utils.service import Service, no_resource_services
-from tests.tools.pulumi import check_pulumi, check_pulumi_relationship
+from tests.tools.pulumi import check_pulumi
 
 
 def check_asl(states: StateMachine):
@@ -24,14 +23,14 @@ def check_asl(states: StateMachine):
         end = False
         state_keys = states.keys()
         assert start in state_keys, f"{need} a StartAt refering to a task  but {start}."
-        for index, (name, task) in enumerate(states.items()):
+        for index, task in enumerate(states.values()):
             type_ = task.get("Type")
             types = ["Task"]
             type_names = ", ".join(types)
             should = f"The task {index} of {urn} should have"
             assert type_, f"{should} a Type"
             assert type_ in types, f"{should} have a Type in {type_names}."
-            if task.get("End") == True:
+            if task.get("End") is True:
                 if not end:
                     end = True
                 else:
