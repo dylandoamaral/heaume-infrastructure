@@ -4,7 +4,7 @@ from pulumi_aws import iam
 from heaume_infrastructure.config import TAGS
 from heaume_infrastructure.cost.sfn import sfn_handle_cost
 
-role_handle_cost_event = iam.Role(
+role_event_handle_cost = iam.Role(
     "eventHandleCostRole",
     assume_role_policy="""{
         "Version": "2012-10-17",
@@ -21,10 +21,11 @@ role_handle_cost_event = iam.Role(
     tags=TAGS,
 )
 
-role_policy_handle_cost_event = iam.RolePolicy(
+role_policy_event_handle_cost = iam.RolePolicy(
     "eventHandleCostRolePolicy",
-    role=role_handle_cost_event.id,
-    policy="""{
+    role=role_event_handle_cost.id,
+    policy=sfn_handle_cost.arn.apply(
+        lambda arn: """{
         "Version": "2012-10-17",
         "Statement": [
             {
@@ -32,10 +33,12 @@ role_policy_handle_cost_event = iam.RolePolicy(
                 "Action": [
                     "states:StartExecution"
                 ],
-                "Resource": "*"
+                "Resource": "%s"
             }
         ]
-    }""",
+    }"""
+        % (arn)
+    ),
 )
 
 
@@ -50,5 +53,5 @@ heandle_cost_target = aws.cloudwatch.EventTarget(
     "handleCostTarget",
     rule=handle_cost_cron.name,
     arn=sfn_handle_cost.arn,
-    role_arn=role_handle_cost_event.arn,
+    role_arn=role_event_handle_cost.arn,
 )

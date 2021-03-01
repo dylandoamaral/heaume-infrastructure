@@ -21,30 +21,30 @@ def check_policy(policy: RolePolicy):
         need = f"The policy {urn} should have"
         version_number = "2012-10-17"
         version = policy.get("Version")
-        assert version, f"{need} a version."
+        assert version, f"{need} a Version."
         assert version == version_number, f"{need} the {version_number}'s version."
         statement = policy.get("Statement")
-        assert statement, f"{need} a statement."
-        assert isinstance(statement, list) is True, f"{need} a list of statements."
+        assert statement, f"{need} a Statement."
+        assert isinstance(statement, list) is True, f"{need} a list for Statement."
         for index, statement in enumerate(policy["Statement"]):
-            need = f"The policy {urn}'s statement n°{index} should have"
+            need = f"The policy {urn}'s Statement n°{index} should have"
             neednot = need.replace("have", "not have")
-            assert isinstance(statement, dict), f"{need} a statement of type dict."
+            assert isinstance(statement, dict), f"{need} a Statement of type dict."
             effect = statement.get("Effect")
             allowed_effects = ["Allow", "Deny"]
             str_effects = " or ".join(allowed_effects)
-            assert effect, f"{need} an effect."
-            assert effect in allowed_effects, f"{need} an effect equals to {str_effects}."
+            assert effect, f"{need} an Effect."
+            assert effect in allowed_effects, f"{need} an Effect equals to {str_effects}."
             resource = statement.get("Resource")
-            assert resource, f"{need} a resource."
-            assert isinstance(resource, (str, list)), f"{need} a resource of type list or str."
+            assert resource, f"{need} a Resource."
+            assert isinstance(resource, (str, list)), f"{need} a Resource of type list or str."
             actions = statement.get("Action")
-            assert actions, f"{need} an action."
-            assert isinstance(actions, (str, list)), f"{need} an action of type list or str."
+            assert actions, f"{need} an Action."
+            assert isinstance(actions, (str, list)), f"{need} an Action of type list or str."
             action_acronyms = {action.split(":")[0] for action in actions}
             no_ressources_acronyms = {s.acronym() for s in no_resource_services}
             if not all(s in no_ressources_acronyms for s in action_acronyms):
-                assert resource != "*", f"{neednot} a wildcard resource ('*')."
+                assert resource != "*", f"{neednot} a wildcard Resource ('*')."
 
     check_pulumi(policy, "policy", curry)
 
@@ -65,25 +65,25 @@ def check_assume_role_policy(role: Role, service: Service):
         need = f"The assume policy {urn} should have"
         version_number = "2012-10-17"
         version = policy.get("Version")
-        assert version, f"{need} a version."
-        assert version == version_number, f"{need} the {version_number}'s version."
+        assert version, f"{need} a Version."
+        assert version == version_number, f"{need} the {version_number}'s Version."
         statements = policy.get("Statement")
-        assert statements, f"{need} a statement."
-        assert isinstance(statements, list) is True, f"{need} a list of statements."
-        assert len(statements) == 1, f"{need} only one statement."
+        assert statements, f"{need} a Statement."
+        assert isinstance(statements, list) is True, f"{need} a list for Statement."
+        assert len(statements) == 1, f"{need} only one Statement."
         statement = statements[0]
         need = f"The statement of {urn} should have"
         need_be = need.replace("have", "be")
         assert statement["Action"] == "sts:AssumeRole", f"{need_be} 'sts:AssumeRole'."
         principal = statement.get("Principal")
-        assert principal, f"{need} a principal."
-        assert isinstance(principal, dict), f"{need} a principal of type dict."
+        assert principal, f"{need} a Principal."
+        assert isinstance(principal, dict), f"{need} a Principal of type dict."
         service_ = principal.get("Service")
-        assert service_, f"{need} a principal's service."
+        assert service_, f"{need} a principal's Service."
         assert service_.startswith(service.acronym()), f"{need} to be assign to a {service.name()}."
         effect = statement.get("Effect")
-        assert effect, f"{need} an effect."
-        assert effect == "Allow", f"{need} an effect equals to Allow."
+        assert effect, f"{need} an Effect."
+        assert effect == "Allow", f"{need} an Effect equals to Allow."
 
     check_pulumi(role, "assume_role_policy", curry)
 
