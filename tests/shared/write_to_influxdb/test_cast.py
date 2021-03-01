@@ -1,4 +1,8 @@
-from heaume_infrastructure.shared.write_to_influxdb.cast import NoCast, CastInt, CastFloat
+from heaume_infrastructure.shared.write_to_influxdb.cast import (
+    CastFloat,
+    CastInt,
+    NoCast,
+)
 
 
 def describe_lambda_code_cast():

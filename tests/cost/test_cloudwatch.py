@@ -1,8 +1,8 @@
 import unittest
 
 import pulumi
-
 from pulumi import CustomResource
+
 import heaume_infrastructure.cost.cloudwatch as infra
 from heaume_infrastructure.utils.service import CloudWatchEvents, StepFunctions
 from tests.tools.iam import (
