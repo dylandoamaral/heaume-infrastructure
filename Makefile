@@ -1,14 +1,20 @@
-test:
-	@poetry run pytest --cov=heaume_infrastructure --cov-config .coveragerc --cov-report=xml --cov-report=term tests/
+lint:
+	@poetry run pylint heaume_infrastructure tests/tools tests/conftest.py
 
-clean:
-	@poetry run black heaume_infrastructure tests
+isort:
 	@poetry run isort heaume_infrastructure tests
 
-check:
-	@poetry run pylint heaume_infrastructure tests
+format:
+	@poetry run black heaume_infrastructure tests
+
+tidy: isort format
+
+check: lint
 	@poetry run black heaume_infrastructure tests --check
 	@poetry run isort heaume_infrastructure tests --check
+
+test:
+	@poetry run pytest --cov=heaume_infrastructure --cov-config .coveragerc --cov-report=xml --spec tests
 
 layer:
 	mkdir tmp; \

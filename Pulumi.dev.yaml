@@ -1,7 +1,7 @@
 config:
   aws:region: eu-west-1
   heaume:influxdbToken:
-    secure: AAABAKI08wMF5g8DIsi7aKeiVJyELd7LdJdl8DwXtT1ZbTstBqg09zpDpIc1bYepKGQjv3H9iIe3jTY5GrumfPHML38gbxkB9QwKr1jPUY+mg1fgFp4c20B+lm7R2y9YGfAXDmB0htugXZsBwxA9bvrgUd9qresw
+    secure: AAABADisRt/squJIB57MCcbAAFlWJH/c6WrJeu4uFpE74NhlcP8Nu0PmJ1Msp/Mo9Dd8JB9oduK5gc8TW/gXVTzvtfyfKNapoI6m8PshtD9Y+ElRFHFDrq7ySE5PoO9yIf+Xwk5Uanyjz8fC7v15GAgsJPMZfSwa
   heaume:influxdbURL:
-    secure: AAABAMYTSm8hJyk+6PmEzZqLOBFgVGyNcDM5EgRIawkjxuM+S+mr7fXMVNvLNeI3tY2liL4ILwKe8oU=
+    secure: AAABAPKPzGWKCFvj9F6KedRrmdGMnzVCc+497zsfLuCGpjq4k2yNEUmCbsmTP+cx51rBDPpWeOTeXYc=
   pulumi:template: aws-python

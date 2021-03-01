@@ -26,9 +26,7 @@ def handler(event, context):
             {
                 "measurement": "price",
                 "time": (now - timedelta(seconds=1)).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "fields": {
-                    "amount": float(groups["Metrics"]["NetAmortizedCost"]["Amount"])
-                },
+                "fields": {"amount": float(groups["Metrics"]["NetAmortizedCost"]["Amount"])},
                 "tags": {
                     "provider": "AWS",
                     "unit": groups["Metrics"]["NetAmortizedCost"]["Unit"],
