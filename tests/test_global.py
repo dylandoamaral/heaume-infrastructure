@@ -1,7 +1,9 @@
+import pkgutil
+
 import pulumi
 import pytest
-import pkgutil
 from pulumi import CustomResource, Output
+
 import heaume_infrastructure
 from heaume_infrastructure.config import TAGS
 from tests.tools.pulumi import check_pulumi
