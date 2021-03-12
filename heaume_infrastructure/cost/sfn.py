@@ -53,4 +53,5 @@ sfn_handle_cost = sfn.StateMachine(
     }"""
         % (arns[0], arns[1])
     ),
+    tags=TAGS,
 )

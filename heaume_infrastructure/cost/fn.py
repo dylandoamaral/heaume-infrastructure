@@ -56,4 +56,5 @@ lambda_retrieve_cost = lambda_.Function(
     code=pulumi.AssetArchive(
         {".": pulumi.FileArchive("./heaume_infrastructure/cost/retrieve_cost")}
     ),
+    tags=TAGS,
 )

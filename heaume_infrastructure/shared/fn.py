@@ -58,4 +58,5 @@ lambda_write_to_influxdb = lambda_.Function(
             "token": lambda_write_to_influxdb_token,
         }
     },
+    tags=TAGS,
 )
