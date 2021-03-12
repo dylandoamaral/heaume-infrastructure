@@ -1,25 +1,39 @@
-# import pulumi
-# import pytest
-# from pulumi import CustomResource, Output
-# import heaume_infrastructure.cost.cloudwatch as infra
-# from heaume_infrastructure.config import TAGS
+import pkgutil
+
+import pulumi
+import pytest
+from pulumi import CustomResource, Output
+
+import heaume_infrastructure
+from heaume_infrastructure.config import TAGS
+from tests.tools.pulumi import check_pulumi
 
 
-# https://github.com/pulumi/pulumi/issues/6439
-# def describe_tags():
-#     names = [item for item in dir(infra) if not item.startswith("__")]
-#     variables = [getattr(infra, name) for name in names]
-#     resources = [variable for variable in variables if isinstance(variable, CustomResource)]
-#     tupled = [(resource) for resource in resources]
+def describe_tags():
+    package = heaume_infrastructure.__path__
+    prefix = heaume_infrastructure.__name__ + "."
+    modules = [
+        importer.find_module(modname).load_module(modname)
+        for importer, modname, _ in pkgutil.walk_packages(package, prefix)
+    ]
+    resources = sorted(
+        {
+            (item, getattr(module, item))
+            for module in modules
+            for item in dir(module)
+            if not item.startswith("__")
+            if isinstance(getattr(module, item), CustomResource)
+        },
+        key=lambda tuple: tuple[0],
+    )
 
-#     @pulumi.runtime.test
-#     @pytest.mark.parametrize("resource", tupled)
-#     def must_be_setup(resource):
-#         def assertion(args):
-#             urn, tags = args
-#             assert tags == TAGS, f"The resource {urn} should have tags."
+    @pytest.mark.parametrize("name,resource", resources)
+    def must_be_setup(resource, name):
+        def curry(args):
+            urn, tags = args
+            assert tags == TAGS, f"The resource {name} should have tags."
 
-#         try:
-#             return Output.all(resource.urn, resource.tags).apply(assertion)
-#         except AttributeError:
-#             return True
+        try:
+            check_pulumi(resource, "tags", curry)
+        except AttributeError:
+            return True

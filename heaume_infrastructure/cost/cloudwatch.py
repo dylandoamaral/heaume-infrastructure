@@ -49,7 +49,7 @@ handle_cost_cron = aws.cloudwatch.EventRule(
     tags=TAGS,
 )
 
-heandle_cost_target = aws.cloudwatch.EventTarget(
+handle_cost_target = aws.cloudwatch.EventTarget(
     "handleCostTarget",
     rule=handle_cost_cron.name,
     arn=sfn_handle_cost.arn,

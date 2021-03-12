@@ -1,15 +1,9 @@
-lint:
-	@poetry run pylint heaume_infrastructure tests/tools tests/conftest.py
-
-isort:
-	@poetry run isort heaume_infrastructure tests
-
 format:
+	@poetry run isort heaume_infrastructure tests
 	@poetry run black heaume_infrastructure tests
 
-tidy: isort format
-
-check: lint
+check:
+	@poetry run pylint heaume_infrastructure tests/tools tests/conftest.py
 	@poetry run black heaume_infrastructure tests --check
 	@poetry run isort heaume_infrastructure tests --check
 
@@ -28,3 +22,6 @@ layer:
 	mv heaume_layer.zip ../heaume_infrastructure/shared/layer/heaume_layer.zip; \
 	cd ..; \
 	rm -r tmp
+
+deploy: test
+	pulumi up
