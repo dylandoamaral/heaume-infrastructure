@@ -25,5 +25,9 @@ def pytest_sessionstart():
             return {}
 
     set_mocks(MyMocks(), project="heaume")
-    secrets = {"heaume:influxdbURL": "https://influx.com", "heaume:influxdbToken": "token"}
+    secrets = {
+        "heaume:influxdbURL": "https://influx.com",
+        "heaume:influxdbToken": "token",
+        "heaume:wakatimeToken": "token",
+    }
     os.environ["PULUMI_CONFIG"] = json.dumps(secrets)
