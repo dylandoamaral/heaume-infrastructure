@@ -1,6 +1,11 @@
-from heaume_infrastructure.wakatime.retrieve_wakatime.schema import Result, Shard
-from pytest import fixture
 from datetime import datetime
+
+from pytest import fixture
+
+from heaume_infrastructure.wakatime.retrieve_wakatime.schema import (
+    Result,
+    Shard,
+)
 
 
 def describe_schemas():

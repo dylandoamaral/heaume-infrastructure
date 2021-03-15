@@ -1,7 +1,8 @@
-import os
-import requests
 import base64
+import os
 from datetime import datetime, timedelta
+
+import requests
 from schema import Result
 
 URL_WAKATIME = "https://wakatime.com"

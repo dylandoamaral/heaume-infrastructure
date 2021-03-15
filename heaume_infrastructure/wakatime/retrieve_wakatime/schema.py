@@ -1,6 +1,7 @@
-from typing import List, Dict, Any
-from pydantic import BaseModel
 from datetime import datetime
+from typing import Any, Dict, List
+
+from pydantic import BaseModel
 
 
 class Shard(BaseModel):

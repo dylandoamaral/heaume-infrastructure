@@ -3,7 +3,11 @@ import unittest
 import pulumi
 
 import heaume_infrastructure.wakatime.fn as infra
-from heaume_infrastructure.utils.service import CloudWatchLogs, Lambda, StepFunctions
+from heaume_infrastructure.utils.service import (
+    CloudWatchLogs,
+    Lambda,
+    StepFunctions,
+)
 from tests.tools.iam import (
     check_assume_role_policy,
     check_policy,

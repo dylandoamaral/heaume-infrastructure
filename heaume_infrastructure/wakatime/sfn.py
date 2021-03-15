@@ -2,9 +2,9 @@ from pulumi import Output
 from pulumi_aws import iam, sfn
 
 from heaume_infrastructure.config import TAGS
-from heaume_infrastructure.wakatime.fn import lambda_retrieve_wakatime
 from heaume_infrastructure.shared.fn import lambda_write_to_influxdb
 from heaume_infrastructure.utils.iam import policy_invoke_lambdas
+from heaume_infrastructure.wakatime.fn import lambda_retrieve_wakatime
 
 sfn_lambda_arns = Output.all(lambda_retrieve_wakatime.arn, lambda_write_to_influxdb.arn)
 

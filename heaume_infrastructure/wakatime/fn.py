@@ -2,8 +2,8 @@ import pulumi
 from pulumi_aws import iam, lambda_
 
 from heaume_infrastructure.config import TAGS
-from heaume_infrastructure.utils.pulumi import config
 from heaume_infrastructure.shared.layer import heaume_layer
+from heaume_infrastructure.utils.pulumi import config
 
 wakatime_token = config.require_secret("wakatimeToken")
 
