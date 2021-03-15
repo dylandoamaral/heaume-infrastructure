@@ -4,4 +4,6 @@ config:
     secure: AAABADisRt/squJIB57MCcbAAFlWJH/c6WrJeu4uFpE74NhlcP8Nu0PmJ1Msp/Mo9Dd8JB9oduK5gc8TW/gXVTzvtfyfKNapoI6m8PshtD9Y+ElRFHFDrq7ySE5PoO9yIf+Xwk5Uanyjz8fC7v15GAgsJPMZfSwa
   heaume:influxdbURL:
     secure: AAABAPKPzGWKCFvj9F6KedRrmdGMnzVCc+497zsfLuCGpjq4k2yNEUmCbsmTP+cx51rBDPpWeOTeXYc=
+  heaume:wakatimeToken:
+    secure: AAABAF2a0BRh8yhUTCUrWR+kzIb+7M48lyvrwWa1Cv2XZ9bXFCxbaqTH9OeF+lfzEySOvMxRQHoCYzLFf5zsOIhm+aQ=
   pulumi:template: aws-python

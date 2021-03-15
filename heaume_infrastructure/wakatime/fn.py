@@ -5,11 +5,10 @@ from heaume_infrastructure.config import TAGS
 from heaume_infrastructure.shared.layer import heaume_layer
 from heaume_infrastructure.utils.pulumi import config
 
-influxdb_url = config.require_secret("influxdbURL")
-influxdb_token = config.require_secret("influxdbToken")
+wakatime_token = config.require_secret("wakatimeToken")
 
-role_lambda_write_to_influxdb = iam.Role(
-    "lambdaWriteToInfluxdbRole",
+role_lambda_retrieve_wakatime = iam.Role(
+    "lambdaRetrieveWakatimeRole",
     assume_role_policy="""{
         "Version": "2012-10-17",
         "Statement": [
@@ -26,9 +25,9 @@ role_lambda_write_to_influxdb = iam.Role(
     tags=TAGS,
 )
 
-role_policy_lambda_write_to_influxdb = iam.RolePolicy(
-    "lambdaWriteToInfluxdbRolePolicy",
-    role=role_lambda_write_to_influxdb.id,
+role_policy_lambda_retrieve_wakatime = iam.RolePolicy(
+    "lambdaRetrieveWakatimeRolePolicy",
+    role=role_lambda_retrieve_wakatime.id,
     policy="""{
         "Version": "2012-10-17",
         "Statement": [{
@@ -43,20 +42,15 @@ role_policy_lambda_write_to_influxdb = iam.RolePolicy(
     }""",
 )
 
-lambda_write_to_influxdb = lambda_.Function(
-    "lambdaWriteToInfluxdb",
-    role=role_lambda_write_to_influxdb.arn,
+lambda_retrieve_wakatime = lambda_.Function(
+    "lambdaRetrieveWakatime",
+    role=role_lambda_retrieve_wakatime.arn,
     runtime="python3.7",
     handler="handler.handler",
     code=pulumi.AssetArchive(
-        {".": pulumi.FileArchive("./heaume_infrastructure/shared/write_to_influxdb")}
+        {".": pulumi.FileArchive("./heaume_infrastructure/wakatime/retrieve_wakatime")}
     ),
     layers=[heaume_layer.arn],
-    environment={
-        "variables": {
-            "url": influxdb_url,
-            "token": influxdb_token,
-        }
-    },
     tags=TAGS,
+    environment={"variables": {"token": wakatime_token}},
 )
